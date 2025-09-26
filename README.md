@@ -10,6 +10,7 @@ A modern, full-stack Airbnb clone built with Next.js 15, TypeScript, MongoDB, an
 ## ✨ Features
 
 ### 🎯 Core Functionality
+
 - **Property Listings** - Browse and search accommodations
 - **Advanced Search** - Filter by location, price, type, and amenities
 - **Property Details** - Detailed view with image gallery and amenities
@@ -18,6 +19,7 @@ A modern, full-stack Airbnb clone built with Next.js 15, TypeScript, MongoDB, an
 - **User Profiles** - User account management and booking history
 
 ### 🎨 UI/UX
+
 - **Responsive Design** - Mobile-first approach with perfect desktop experience
 - **Modern Interface** - Clean, intuitive design inspired by Airbnb
 - **Interactive Components** - Smooth animations and transitions
@@ -25,6 +27,7 @@ A modern, full-stack Airbnb clone built with Next.js 15, TypeScript, MongoDB, an
 - **Accessibility** - ARIA labels and keyboard navigation support
 
 ### 🛠 Technical Features
+
 - **Server-Side Rendering** - Next.js App Router for optimal performance
 - **API Routes** - RESTful endpoints for all operations
 - **Type Safety** - Full TypeScript implementation
@@ -35,6 +38,7 @@ A modern, full-stack Airbnb clone built with Next.js 15, TypeScript, MongoDB, an
 ## 🚀 Tech Stack
 
 ### Frontend
+
 - **[Next.js 15.5.4](https://nextjs.org/)** - React framework with App Router
 - **[TypeScript](https://www.typescriptlang.org/)** - Type-safe JavaScript
 - **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
@@ -43,33 +47,39 @@ A modern, full-stack Airbnb clone built with Next.js 15, TypeScript, MongoDB, an
 - **[Sonner](https://sonner.emilkowal.ski/)** - Toast notifications
 
 ### Backend
+
 - **[MongoDB](https://www.mongodb.com/)** - NoSQL database
 - **[Mongoose](https://mongoosejs.com/)** - MongoDB object modeling
 - **Next.js API Routes** - Serverless API endpoints
 
 ### Development
+
 - **[ESLint](https://eslint.org/)** - Code linting
 - **[Turbopack](https://turbo.build/pack)** - Fast bundler for development
 
 ## 📦 Installation
 
 ### Prerequisites
+
 - Node.js 18.17 or later
 - npm or yarn
 - MongoDB Atlas account (or local MongoDB)
 
 ### 1. Clone the repository
+
 ```bash
 git clone https://github.com/yourusername/airbnb-clone.git
 cd airbnb-clone
 ```
 
 ### 2. Install dependencies
+
 ```bash
 npm install
 ```
 
 ### 3. Environment setup
+
 ```bash
 # Copy environment template
 cp .env.example .env.local
@@ -81,6 +91,7 @@ NEXTAUTH_URL=http://localhost:3000
 ```
 
 ### 4. Start development server
+
 ```bash
 npm run dev
 ```
@@ -119,20 +130,24 @@ airbnb-clone/
 ## 🔌 API Endpoints
 
 ### Properties
+
 - `GET /api/properties` - Get all properties with filtering
 - `POST /api/properties` - Create new property
 
 ### Bookings
+
 - `GET /api/bookings` - Get user bookings
 - `POST /api/bookings` - Create new booking
 
 ### Favorites
+
 - `GET /api/favorites` - Get user favorites
 - `POST /api/favorites` - Toggle property favorite
 
 ## 📱 Components
 
 ### Core Components
+
 - **PropertyCard** - Property listing display
 - **PropertyDetails** - Detailed property view
 - **SearchHeader** - Search and filter interface
@@ -141,7 +156,9 @@ airbnb-clone/
 - **FilterSheet** - Advanced filtering
 
 ### UI Components
+
 Complete set of reusable UI components built with Radix UI:
+
 - Buttons, Inputs, Modals, Dropdowns
 - Cards, Badges, Tooltips, Sheets
 - Navigation, Tabs, Accordions
@@ -150,19 +167,21 @@ Complete set of reusable UI components built with Radix UI:
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
+
 1. Push your code to GitHub
 2. Connect your repository to Vercel
 3. Set environment variables in Vercel dashboard
 4. Deploy automatically on every push
 
 ### Environment Variables for Production
+
 ```bash
 MONGODB_URI=your-production-mongodb-uri
 NEXTAUTH_SECRET=your-production-secret
 NEXTAUTH_URL=https://your-domain.com
 ```
 
-For detailed deployment instructions, see [_documents/02-vercel-deployment.md](./_documents/02-vercel-deployment.md)
+For detailed deployment instructions, see [\_documents/02-vercel-deployment.md](./_documents/02-vercel-deployment.md)
 
 ## 📚 Documentation
 
@@ -177,16 +196,19 @@ Comprehensive documentation available in the `_documents/` folder:
 ## 🧪 Testing
 
 ### Run Development Server
+
 ```bash
 npm run dev
 ```
 
 ### Build for Production
+
 ```bash
 npm run build
 ```
 
 ### Lint Code
+
 ```bash
 npm run lint
 ```
@@ -194,12 +216,14 @@ npm run lint
 ## 🔧 Development
 
 ### Available Scripts
+
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
 - `npm run start` - Start production server
 - `npm run lint` - Run ESLint
 
 ### Adding New Features
+
 1. Create feature branch: `git checkout -b feature/your-feature`
 2. Implement your changes
 3. Test thoroughly
