@@ -39,8 +39,10 @@ export async function GET(request: NextRequest) {
 
     if (filters.priceMin || filters.priceMax) {
       query.price = {};
-      if (filters.priceMin) query.price.$gte = filters.priceMin;
-      if (filters.priceMax) query.price.$lte = filters.priceMax;
+      if (filters.priceMin)
+        (query.price as Record<string, unknown>).$gte = filters.priceMin;
+      if (filters.priceMax)
+        (query.price as Record<string, unknown>).$lte = filters.priceMax;
     }
 
     if (filters.type) {
