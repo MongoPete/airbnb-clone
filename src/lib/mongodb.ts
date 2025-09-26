@@ -1,14 +1,8 @@
 import { MongoClient } from "mongodb";
 
-if (!process.env.MONGODB_URI) {
-  if (process.env.NODE_ENV === "production") {
-    throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
-  }
-  // Use a placeholder URI for build time
-  process.env.MONGODB_URI = "mongodb://localhost:27017/airbnb-placeholder";
-}
-
-const uri = process.env.MONGODB_URI;
+const uri =
+  process.env.MONGODB_URI ||
+  "mongodb+srv://demoPete:demoPete@back-to-basics-crud.fvu2crg.mongodb.net/sample_airbnb";
 const options = {
   maxPoolSize: 10, // Maintain up to 10 socket connections
   serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds

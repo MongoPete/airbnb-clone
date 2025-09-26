@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Share, Heart, Star, Users, Bed, Bath, Wifi, Car, Coffee } from 'lucide-react';
+import { ArrowLeft, Share, Heart, Star, Users, Bath, Wifi, Car, Coffee } from 'lucide-react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
@@ -16,30 +16,40 @@ interface PropertyDetailsProps {
 export function PropertyDetails({ property, onBack, onToggleFavorite, onBook }: PropertyDetailsProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  // Extract data from MongoDB structure
+  const price = property.price?.$numberDecimal ? parseFloat(property.price.$numberDecimal) : 0;
+  const rating = property.review_scores?.review_scores_rating ? property.review_scores.review_scores_rating / 10 : 0;
+  const reviewCount = property.number_of_reviews || 0;
+  const location = `${property.address.street}, ${property.address.market || property.address.country}`;
+  const bathrooms = property.bathrooms?.$numberDecimal ? parseFloat(property.bathrooms.$numberDecimal) : 0;
+  
+  // Create images array from the single image object
+  const images = [
+    property.images.picture_url,
+    property.images.xl_picture_url,
+    property.images.medium_url,
+    property.images.thumbnail_url
+  ].filter(Boolean);
+
   const amenityIcons: { [key: string]: React.ReactNode } = {
+    'Wifi': <Wifi className="h-4 w-4" />,
     'WiFi': <Wifi className="h-4 w-4" />,
     'Parking': <Car className="h-4 w-4" />,
     'Kitchen': <Coffee className="h-4 w-4" />,
-    'Bath': <Bath className="h-4 w-4" />,
-    'Bed': <Bed className="h-4 w-4" />,
+    'Paid parking off premises': <Car className="h-4 w-4" />,
+    'Coffee maker': <Coffee className="h-4 w-4" />,
+    'Washer': <Bath className="h-4 w-4" />,
+    'TV': <Users className="h-4 w-4" />,
   };
 
-  const reviews = [
-    {
-      id: '1',
-      user: 'Sarah M.',
-      rating: 5,
-      comment: 'Amazing place! Clean, comfortable, and exactly as described. The host was very responsive.',
-      date: '2 weeks ago'
-    },
-    {
-      id: '2',
-      user: 'Mike R.',
-      rating: 5,
-      comment: 'Perfect location and beautiful apartment. Would definitely stay again!',
-      date: '1 month ago'
-    }
-  ];
+  // Use real reviews from MongoDB data
+  const reviews = property.reviews?.slice(0, 5).map(review => ({
+    id: review._id,
+    user: review.reviewer_name,
+    rating: 5, // MongoDB doesn't store individual review ratings, so default to 5
+    comment: review.comments,
+    date: new Date(review.date.$date).toLocaleDateString()
+  })) || [];
 
   return (
     <div className="min-h-screen bg-background">
@@ -56,7 +66,7 @@ export function PropertyDetails({ property, onBack, onToggleFavorite, onBook }: 
             <Button 
               variant="ghost" 
               size="icon"
-              onClick={() => onToggleFavorite(property.id)}
+              onClick={() => onToggleFavorite(property._id)}
             >
               <Heart
                 className={`h-5 w-5 ${
@@ -71,21 +81,23 @@ export function PropertyDetails({ property, onBack, onToggleFavorite, onBook }: 
       {/* Image Gallery */}
       <div className="relative">
         <ImageWithFallback
-          src={property.images[currentImageIndex]}
-          alt={property.title}
+          src={images[currentImageIndex] || property.images.picture_url}
+          alt={property.name}
           className="w-full h-80 object-cover"
         />
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-          {property.images.map((_, index) => (
-            <button
-              key={index}
-              className={`w-2 h-2 rounded-full ${
-                index === currentImageIndex ? 'bg-white' : 'bg-white/50'
-              }`}
-              onClick={() => setCurrentImageIndex(index)}
-            />
-          ))}
-        </div>
+        {images.length > 1 && (
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                className={`w-2 h-2 rounded-full ${
+                  index === currentImageIndex ? 'bg-white' : 'bg-white/50'
+                }`}
+                onClick={() => setCurrentImageIndex(index)}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Content */}
@@ -93,29 +105,44 @@ export function PropertyDetails({ property, onBack, onToggleFavorite, onBook }: 
         {/* Title & Rating */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
-            <h1 className="mb-2">{property.title}</h1>
-            <p className="text-muted-foreground mb-2">{property.location}</p>
-            {property.superhost && (
-              <Badge className="mb-2">Superhost</Badge>
-            )}
+            <h1 className="text-xl font-bold mb-2">{property.name}</h1>
+            <p className="text-muted-foreground mb-2">{location}</p>
+            <div className="flex items-center gap-2 mb-2">
+              <Badge variant="outline">{property.property_type}</Badge>
+              <Badge variant="outline">{property.room_type}</Badge>
+              {property.host.host_is_superhost && (
+                <Badge className="bg-red-500 text-white">Superhost</Badge>
+              )}
+            </div>
           </div>
-          <div className="flex items-center gap-1 ml-4">
-            <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-            <span>{property.rating}</span>
-            <span className="text-muted-foreground">({property.reviewCount} reviews)</span>
-          </div>
+          {rating > 0 && (
+            <div className="flex items-center gap-1 ml-4">
+              <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+              <span className="font-semibold">{rating.toFixed(1)}</span>
+              <span className="text-muted-foreground">({reviewCount} reviews)</span>
+            </div>
+          )}
         </div>
 
         {/* Host Info */}
         <div className="flex items-center gap-3 mb-6">
           <Avatar className="h-12 w-12">
-            <div className="w-full h-full bg-primary/10 flex items-center justify-center">
-              <span>{property.host[0]}</span>
-            </div>
+            <AvatarImage src={property.host.host_picture_url} alt={property.host.host_name} />
+            <AvatarFallback>
+              <div className="w-full h-full bg-primary/10 flex items-center justify-center">
+                <span className="text-sm font-medium">{property.host.host_name[0]}</span>
+              </div>
+            </AvatarFallback>
           </Avatar>
           <div>
-            <p>Hosted by {property.host}</p>
-            <p className="text-sm text-muted-foreground">Superhost · 4 years hosting</p>
+            <p className="font-medium">Hosted by {property.host.host_name}</p>
+            <p className="text-sm text-muted-foreground">
+              {property.host.host_is_superhost ? 'Superhost' : 'Host'} • 
+              {property.host.host_response_time && ` ${property.host.host_response_time} response`}
+            </p>
+            {property.host.host_location && (
+              <p className="text-xs text-muted-foreground">{property.host.host_location}</p>
+            )}
           </div>
         </div>
 
@@ -123,8 +150,18 @@ export function PropertyDetails({ property, onBack, onToggleFavorite, onBook }: 
         <div className="space-y-4 mb-6">
           <div className="flex items-center gap-3">
             <Users className="h-5 w-5 text-muted-foreground" />
-            <span>4 guests · 2 bedrooms · 2 beds · 1 bathroom</span>
+            <span>
+              {property.accommodates} guests • 
+              {property.bedrooms ? ` ${property.bedrooms} bedroom${property.bedrooms !== 1 ? 's' : ''}` : ''} • 
+              {property.beds ? ` ${property.beds} bed${property.beds !== 1 ? 's' : ''}` : ''} • 
+              {bathrooms > 0 ? ` ${bathrooms} bathroom${bathrooms !== 1 ? 's' : ''}` : ''}
+            </span>
           </div>
+          {property.minimum_nights && (
+            <div className="text-sm text-muted-foreground">
+              Minimum stay: {property.minimum_nights} night{property.minimum_nights !== '1' ? 's' : ''}
+            </div>
+          )}
         </div>
 
         {/* Amenities */}
@@ -144,7 +181,7 @@ export function PropertyDetails({ property, onBack, onToggleFavorite, onBook }: 
         <div className="mb-20">
           <div className="flex items-center gap-2 mb-4">
             <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-            <span>{property.rating} · {property.reviewCount} reviews</span>
+            <span>{rating.toFixed(1)} · {reviewCount} reviews</span>
           </div>
           <div className="space-y-4">
             {reviews.map((review) => (
@@ -172,7 +209,7 @@ export function PropertyDetails({ property, onBack, onToggleFavorite, onBook }: 
         <div className="flex items-center justify-between">
           <div>
             <div className="flex items-baseline gap-1">
-              <span>${property.price}</span>
+              <span>${Math.round(price)}</span>
               <span className="text-muted-foreground">night</span>
             </div>
             <p className="text-sm text-muted-foreground">Dec 15-20</p>

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { SearchHeader } from '@/components/SearchHeader';
 import { PropertyCard } from '@/components/PropertyCard';
 import { PropertyDetails } from '@/components/PropertyDetails';
@@ -27,9 +27,9 @@ export default function App() {
   // Fetch properties from API
   useEffect(() => {
     fetchProperties();
-  }, [searchQuery]);
+  }, [searchQuery, fetchProperties]);
 
-  const fetchProperties = async () => {
+  const fetchProperties = useCallback(async () => {
     try {
       setLoading(true);
       const params = new URLSearchParams();
@@ -50,77 +50,71 @@ export default function App() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchQuery]);
 
-  // Mock data for initial testing
+  // Mock data matching MongoDB structure for fallback
   const mockProperties: Property[] = [
     {
-      id: '1',
-      title: 'Modern Downtown Apartment',
-      location: 'New York, NY',
-      price: 150,
-      rating: 4.9,
-      reviewCount: 127,
-      images: [
-        'https://images.unsplash.com/photo-1662454419622-a41092ecd245?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBhcGFydG1lbnQlMjBsaXZpbmclMjByb29tfGVufDF8fHx8MTc1ODkxMzcwOHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-        'https://images.unsplash.com/photo-1755829634812-77614455c061?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3p5JTIwYmVkcm9vbSUyMGhvdGVsfGVufDF8fHx8MTc1ODg1ODQ3MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-      ],
-      host: 'Sarah',
-      type: 'Entire apartment',
+      _id: '1',
+      name: 'Modern Downtown Apartment',
+      property_type: 'Apartment',
+      room_type: 'Entire home/apt',
+      accommodates: 4,
+      bedrooms: 2,
+      number_of_reviews: 127,
       amenities: ['WiFi', 'Kitchen', 'Air conditioning', 'Washer'],
-      superhost: true,
+      price: { $numberDecimal: '150.00' },
+      images: {
+        picture_url: 'https://images.unsplash.com/photo-1662454419622-a41092ecd245?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBhcGFydG1lbnQlMjBsaXZpbmclMjByb29tfGVufDF8fHx8MTc1ODkxMzcwOHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+        medium_url: 'https://images.unsplash.com/photo-1755829634812-77614455c061?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3p5JTIwYmVkcm9vbSUyMGhvdGVsfGVufDF8fHx8MTc1ODg1ODQ3MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
+      },
+      host: {
+        host_id: '1',
+        host_name: 'Sarah',
+        host_is_superhost: true,
+        host_has_profile_pic: true,
+        host_identity_verified: true
+      },
+      address: {
+        street: 'New York, NY',
+        country: 'United States',
+        location: { type: 'Point', coordinates: [-74.0060, 40.7128] }
+      },
+      review_scores: {
+        review_scores_rating: 49
+      },
       isFavorite: false,
     },
     {
-      id: '2',
-      title: 'Luxury Villa with Ocean View',
-      location: 'Miami, FL',
-      price: 320,
-      rating: 4.8,
-      reviewCount: 89,
-      images: [
-        'https://images.unsplash.com/photo-1622015663319-e97e697503ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB2YWNhdGlvbiUyMGhvbWUlMjBleHRlcmlvcnxlbnwxfHx8fDE3NTg5MDcxNDJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-        'https://images.unsplash.com/photo-1597508625000-b4d358850e06?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiZWFjaCUyMGhvdXNlJTIwb2NlYW4lMjB2aWV3fGVufDF8fHx8MTc1ODg1MzQ4OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-      ],
-      host: 'Mike',
-      type: 'Entire villa',
+      _id: '2',
+      name: 'Luxury Villa with Ocean View',
+      property_type: 'Villa',
+      room_type: 'Entire home/apt',
+      accommodates: 8,
+      bedrooms: 4,
+      number_of_reviews: 89,
       amenities: ['WiFi', 'Pool', 'Hot tub', 'Parking', 'Kitchen'],
-      superhost: false,
+      price: { $numberDecimal: '320.00' },
+      images: {
+        picture_url: 'https://images.unsplash.com/photo-1622015663319-e97e697503ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB2YWNhdGlvbiUyMGhvbWUlMjBleHRlcmlvcnxlbnwxfHx8fDE3NTg5MDcxNDJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+        medium_url: 'https://images.unsplash.com/photo-1597508625000-b4d358850e06?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiZWFjaCUyMGhvdXNlJTIwb2NlYW4lMjB2aWV3fGVufDF8fHx8MTc1ODg1MzQ4OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
+      },
+      host: {
+        host_id: '2',
+        host_name: 'Mike',
+        host_is_superhost: false,
+        host_has_profile_pic: true,
+        host_identity_verified: true
+      },
+      address: {
+        street: 'Miami, FL',
+        country: 'United States',
+        location: { type: 'Point', coordinates: [-80.1918, 25.7617] }
+      },
+      review_scores: {
+        review_scores_rating: 48
+      },
       isFavorite: true,
-    },
-    {
-      id: '3',
-      title: 'Cozy City Loft',
-      location: 'Chicago, IL',
-      price: 95,
-      rating: 4.7,
-      reviewCount: 203,
-      images: [
-        'https://images.unsplash.com/photo-1616116408164-54aaffd852b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaXR5JTIwYXBhcnRtZW50JTIwYmFsY29ueSUyMHZpZXd8ZW58MXx8fHwxNzU4OTA3MTQzfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-        'https://images.unsplash.com/photo-1755829634812-77614455c061?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3p5JTIwYmVkcm9vbSUyMGhvdGVsfGVufDF8fHx8MTc1ODg1ODQ3MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-      ],
-      host: 'Emma',
-      type: 'Private room',
-      amenities: ['WiFi', 'Kitchen', 'Gym'],
-      superhost: true,
-      isFavorite: false,
-    },
-    {
-      id: '4',
-      title: 'Beachfront Paradise',
-      location: 'San Diego, CA',
-      price: 280,
-      rating: 4.9,
-      reviewCount: 156,
-      images: [
-        'https://images.unsplash.com/photo-1597508625000-b4d358850e06?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiZWFjaCUyMGhvdXNlJTIwb2NlYW4lMjB2aWV3fGVufDF8fHx8MTc1ODg1MzQ4OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-        'https://images.unsplash.com/photo-1622015663319-e97e697503ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB2YWNhdGlvbiUyMGhvbWUlMjBleHRlcmlvcnxlbnwxfHx8fDE3NTg5MDcxNDJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-      ],
-      host: 'David',
-      type: 'Entire house',
-      amenities: ['WiFi', 'Kitchen', 'Parking', 'Pool', 'Hot tub'],
-      superhost: true,
-      isFavorite: false,
     },
   ];
 
@@ -140,17 +134,17 @@ export default function App() {
         // Update local state
         setProperties(prev => 
           prev.map(property => 
-            property.id === propertyId 
+            property._id === propertyId 
               ? { ...property, isFavorite: data.isFavorite }
               : property
           )
         );
         
-        const property = properties.find(p => p.id === propertyId);
+        const property = properties.find(p => p._id === propertyId);
         toast(
           data.isFavorite ? 'Added to wishlist' : 'Removed from wishlist',
           {
-            description: property?.title,
+            description: property?.name,
           }
         );
       }
@@ -178,13 +172,13 @@ export default function App() {
         body: JSON.stringify({
           ...bookingDetails,
           userId,
-          propertyId: selectedProperty?.id,
+          propertyId: selectedProperty?._id,
         }),
       });
 
       if (response.ok) {
         toast('Booking confirmed!', {
-          description: `Your reservation for ${selectedProperty?.title} has been confirmed.`,
+          description: `Your reservation for ${selectedProperty?.name} has been confirmed.`,
         });
         setShowBookingModal(false);
       } else {
@@ -207,8 +201,9 @@ export default function App() {
   };
 
   const filteredProperties = properties.filter(property =>
-    property.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    property.location.toLowerCase().includes(searchQuery.toLowerCase())
+    property.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    property.address.street.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (property.address.market && property.address.market.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   const favoriteProperties = properties.filter(property => property.isFavorite);
@@ -263,7 +258,7 @@ export default function App() {
               <div className="grid grid-cols-1 gap-6">
                 {filteredProperties.map((property) => (
                   <PropertyCard
-                    key={property.id}
+                    key={property._id}
                     property={property}
                     onToggleFavorite={handleToggleFavorite}
                     onClick={handlePropertyClick}
@@ -294,6 +289,8 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* Admin functionality removed */}
 
       {activeTab === 'profile' && <ProfileTab />}
 

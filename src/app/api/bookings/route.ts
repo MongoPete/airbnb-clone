@@ -6,7 +6,7 @@ import { generateId } from "@/lib/utils";
 export async function GET(request: NextRequest) {
   try {
     const client = await clientPromise;
-    const db = client.db("airbnb-localhost");
+    const db = client.db("sample_airbnb");
 
     const { searchParams } = new URL(request.url);
     const filters: BookingFilters = {
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const client = await clientPromise;
-    const db = client.db("airbnb-localhost");
+    const db = client.db("sample_airbnb");
 
     const bookingData = await request.json();
 
