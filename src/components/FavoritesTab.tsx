@@ -28,7 +28,7 @@ export function FavoritesTab({ favoriteProperties, onToggleFavorite, onPropertyC
       <div className="grid grid-cols-1 gap-4">
         {favoriteProperties.map((property) => (
           <PropertyCard
-            key={property.id}
+            key={property._id}
             property={property}
             onToggleFavorite={onToggleFavorite}
             onClick={onPropertyClick}
