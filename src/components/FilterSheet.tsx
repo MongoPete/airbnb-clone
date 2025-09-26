@@ -9,7 +9,7 @@ import { Badge } from './ui/badge';
 interface FilterSheetProps {
   isOpen: boolean;
   onClose: () => void;
-  onApplyFilters: (filters: any) => void;
+  onApplyFilters: (filters: Record<string, unknown>) => void;
 }
 
 export function FilterSheet({ isOpen, onClose, onApplyFilters }: FilterSheetProps) {

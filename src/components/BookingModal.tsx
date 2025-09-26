@@ -11,7 +11,7 @@ interface BookingModalProps {
   property: Property;
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (bookingDetails: any) => void;
+  onConfirm: (bookingDetails: Record<string, unknown>) => void;
 }
 
 export function BookingModal({ property, isOpen, onClose, onConfirm }: BookingModalProps) {
@@ -137,7 +137,7 @@ export function BookingModal({ property, isOpen, onClose, onConfirm }: BookingMo
 
           {/* Terms */}
           <div className="text-xs text-muted-foreground">
-            By selecting the button below, I agree to the Host's House Rules, Ground rules for guests, Airbnb's Rebooking and Refund Policy, and that Airbnb can charge my payment method if I'm responsible for damage.
+            By selecting the button below, I agree to the Host&apos;s House Rules, Ground rules for guests, Airbnb&apos;s Rebooking and Refund Policy, and that Airbnb can charge my payment method if I&apos;m responsible for damage.
           </div>
 
           <Button onClick={handleConfirm} className="w-full h-12">

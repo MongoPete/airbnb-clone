@@ -57,7 +57,7 @@ export function ProfileTab() {
       <div className="bg-gradient-to-r from-pink-500 to-red-500 rounded-xl p-4 mb-6 text-white">
         <h3 className="mb-2">Airbnb your home</h3>
         <p className="text-sm mb-3 opacity-90">
-          It's simple to get set up and start earning.
+          It&apos;s simple to get set up and start earning.
         </p>
         <Button variant="secondary" size="sm">
           Learn more

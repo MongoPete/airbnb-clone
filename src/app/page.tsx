@@ -168,7 +168,7 @@ export default function App() {
     setShowBookingModal(true);
   };
 
-  const handleConfirmBooking = async (bookingDetails: any) => {
+  const handleConfirmBooking = async (bookingDetails: Record<string, unknown>) => {
     try {
       const response = await fetch('/api/bookings', {
         method: 'POST',
@@ -200,7 +200,7 @@ export default function App() {
     setSearchQuery(query);
   };
 
-  const handleApplyFilters = (filters: any) => {
+  const handleApplyFilters = (filters: Record<string, unknown>) => {
     toast('Filters applied', {
       description: 'Search results updated based on your preferences.',
     });
@@ -214,7 +214,7 @@ export default function App() {
   const favoriteProperties = properties.filter(property => property.isFavorite);
 
   if (selectedProperty) {
-    return (
+  return (
       <>
         <PropertyDetails
           property={selectedProperty}

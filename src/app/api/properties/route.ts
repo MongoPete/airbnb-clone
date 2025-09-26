@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     };
 
     // Build MongoDB query
-    const query: any = {};
+    const query: Record<string, unknown> = {};
 
     if (filters.search) {
       query.$or = [
