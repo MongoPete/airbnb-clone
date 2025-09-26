@@ -23,14 +23,15 @@ export function BookingModal({ property, isOpen, onClose, onConfirm }: BookingMo
   if (!isOpen) return null;
 
   const nights = 5; // Calculate based on dates
-  const subtotal = property.price * nights;
+  const pricePerNight = parseFloat(property.price.$numberDecimal || '0');
+  const subtotal = pricePerNight * nights;
   const serviceFee = Math.round(subtotal * 0.14);
   const taxes = Math.round(subtotal * 0.08);
   const total = subtotal + serviceFee + taxes;
 
   const handleConfirm = () => {
     const bookingDetails = {
-      propertyId: property.id,
+      propertyId: property._id,
       checkIn,
       checkOut,
       guests: parseInt(guests),
@@ -116,7 +117,7 @@ export function BookingModal({ property, isOpen, onClose, onConfirm }: BookingMo
             <h3 className="mb-3">Price details</h3>
             <div className="space-y-2">
               <div className="flex justify-between">
-                <span>${property.price} x {nights} nights</span>
+                <span>${pricePerNight} x {nights} nights</span>
                 <span>${subtotal}</span>
               </div>
               <div className="flex justify-between">
