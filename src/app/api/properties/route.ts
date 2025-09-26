@@ -87,29 +87,39 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    // Check for MongoDB URI in production
-    if (
-      !process.env.MONGODB_URI ||
-      process.env.MONGODB_URI.includes("placeholder")
-    ) {
-      return Response.json(
-        { error: "Database not configured. Please set up MongoDB Atlas." },
-        { status: 503 }
-      );
-    }
     const client = await clientPromise;
     const db = client.db("sample_airbnb");
 
     const propertyData = await request.json();
 
-    const property: Property = {
-      id: generateId(),
-      ...propertyData,
-      rating: 0,
-      reviewCount: 0,
-      superhost: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+    // Create property object without _id (MongoDB will generate it)
+    const property = {
+      _id: generateId(), // Generate a new ID for the new property
+      name: propertyData.name,
+      property_type: propertyData.type,
+      room_type: propertyData.room_type || "Entire home/apt",
+      accommodates: propertyData.accommodates || 1,
+      number_of_reviews: 0,
+      amenities: propertyData.amenities || [],
+      price: { $numberDecimal: propertyData.price.toString() },
+      images: {
+        picture_url: propertyData.images?.[0] || "/placeholder-property.jpg",
+      },
+      host: {
+        host_id: generateId(),
+        host_name: propertyData.host || "Host",
+        host_is_superhost: false,
+        host_has_profile_pic: true,
+        host_identity_verified: true,
+      },
+      address: {
+        street: propertyData.location || "",
+        country: propertyData.country || "Unknown",
+        location: { type: "Point", coordinates: [0, 0] },
+      },
+      description: propertyData.description || "",
+      summary: propertyData.summary || "",
+      // Add other fields as necessary, with default values or from propertyData
     };
 
     const result = await db

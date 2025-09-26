@@ -12,6 +12,76 @@ import { Badge } from '@/components/ui/badge';
 import { Property } from '@/lib/models/Property';
 import { toast } from 'sonner';
 
+// Mock data matching MongoDB structure for fallback
+const mockProperties: Property[] = [
+  {
+    _id: '1',
+    name: 'Modern Downtown Apartment',
+    summary: 'Beautiful modern apartment in the heart of the city',
+    property_type: 'Apartment',
+    room_type: 'Entire home/apt',
+    accommodates: 4,
+    bedrooms: 2,
+    beds: 2,
+    number_of_reviews: 127,
+    amenities: ['Wifi', 'Kitchen', 'Air conditioning', 'Heating'],
+    price: { $numberDecimal: '120.00' },
+    images: {
+      picture_url: '/placeholder-property.jpg',
+    },
+    host: {
+      host_id: 'host1',
+      host_name: 'Sarah Johnson',
+      host_is_superhost: true,
+      host_has_profile_pic: true,
+      host_identity_verified: true,
+    },
+    address: {
+      street: '123 Main St, Downtown',
+      market: 'New York',
+      country: 'United States',
+      location: { type: 'Point', coordinates: [-73.985, 40.758] },
+    },
+    review_scores: {
+      review_scores_rating: 92,
+    },
+    description: 'A beautiful modern apartment with all amenities.',
+  },
+  {
+    _id: '2',
+    name: 'Cozy Beach House',
+    summary: 'Perfect getaway by the ocean with stunning views',
+    property_type: 'House',
+    room_type: 'Entire home/apt',
+    accommodates: 6,
+    bedrooms: 3,
+    beds: 4,
+    number_of_reviews: 89,
+    amenities: ['Wifi', 'Kitchen', 'Beachfront', 'Hot tub'],
+    price: { $numberDecimal: '250.00' },
+    images: {
+      picture_url: '/placeholder-property.jpg',
+    },
+    host: {
+      host_id: 'host2',
+      host_name: 'Mike Chen',
+      host_is_superhost: false,
+      host_has_profile_pic: true,
+      host_identity_verified: true,
+    },
+    address: {
+      street: '456 Ocean Drive',
+      market: 'Miami Beach',
+      country: 'United States',
+      location: { type: 'Point', coordinates: [-80.139, 25.790] },
+    },
+    review_scores: {
+      review_scores_rating: 88,
+    },
+    description: 'A cozy beach house perfect for family vacations.',
+  },
+];
+
 export default function App() {
   const [activeTab, setActiveTab] = useState('search');
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
@@ -52,71 +122,6 @@ export default function App() {
     }
   }, [searchQuery]);
 
-  // Mock data matching MongoDB structure for fallback
-  const mockProperties: Property[] = [
-    {
-      _id: '1',
-      name: 'Modern Downtown Apartment',
-      property_type: 'Apartment',
-      room_type: 'Entire home/apt',
-      accommodates: 4,
-      bedrooms: 2,
-      number_of_reviews: 127,
-      amenities: ['WiFi', 'Kitchen', 'Air conditioning', 'Washer'],
-      price: { $numberDecimal: '150.00' },
-      images: {
-        picture_url: 'https://images.unsplash.com/photo-1662454419622-a41092ecd245?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBhcGFydG1lbnQlMjBsaXZpbmclMjByb29tfGVufDF8fHx8MTc1ODkxMzcwOHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-        medium_url: 'https://images.unsplash.com/photo-1755829634812-77614455c061?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3p5JTIwYmVkcm9vbSUyMGhvdGVsfGVufDF8fHx8MTc1ODg1ODQ3MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-      },
-      host: {
-        host_id: '1',
-        host_name: 'Sarah',
-        host_is_superhost: true,
-        host_has_profile_pic: true,
-        host_identity_verified: true
-      },
-      address: {
-        street: 'New York, NY',
-        country: 'United States',
-        location: { type: 'Point', coordinates: [-74.0060, 40.7128] }
-      },
-      review_scores: {
-        review_scores_rating: 49
-      },
-      isFavorite: false,
-    },
-    {
-      _id: '2',
-      name: 'Luxury Villa with Ocean View',
-      property_type: 'Villa',
-      room_type: 'Entire home/apt',
-      accommodates: 8,
-      bedrooms: 4,
-      number_of_reviews: 89,
-      amenities: ['WiFi', 'Pool', 'Hot tub', 'Parking', 'Kitchen'],
-      price: { $numberDecimal: '320.00' },
-      images: {
-        picture_url: 'https://images.unsplash.com/photo-1622015663319-e97e697503ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB2YWNhdGlvbiUyMGhvbWUlMjBleHRlcmlvcnxlbnwxfHx8fDE3NTg5MDcxNDJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-        medium_url: 'https://images.unsplash.com/photo-1597508625000-b4d358850e06?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiZWFjaCUyMGhvdXNlJTIwb2NlYW4lMjB2aWV3fGVufDF8fHx8MTc1ODg1MzQ4OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-      },
-      host: {
-        host_id: '2',
-        host_name: 'Mike',
-        host_is_superhost: false,
-        host_has_profile_pic: true,
-        host_identity_verified: true
-      },
-      address: {
-        street: 'Miami, FL',
-        country: 'United States',
-        location: { type: 'Point', coordinates: [-80.1918, 25.7617] }
-      },
-      review_scores: {
-        review_scores_rating: 48
-      },
-      isFavorite: true,
-    },
-  ];
 
   const handleToggleFavorite = async (propertyId: string) => {
     try {
@@ -158,7 +163,7 @@ export default function App() {
     setSelectedProperty(property);
   };
 
-  const handleBooking = (property: Property) => {
+  const handleBooking = () => {
     setShowBookingModal(true);
   };
 
@@ -194,7 +199,7 @@ export default function App() {
     setSearchQuery(query);
   };
 
-  const handleApplyFilters = (filters: Record<string, unknown>) => {
+  const handleApplyFilters = () => {
     toast('Filters applied', {
       description: 'Search results updated based on your preferences.',
     });
