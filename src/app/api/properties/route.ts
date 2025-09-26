@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
-import { Property, PropertyFilters } from "@/lib/models/Property";
+import { PropertyFilters } from "@/lib/models/Property";
 import { generateId } from "@/lib/utils";
 
 export async function GET(request: NextRequest) {
@@ -94,7 +94,6 @@ export async function POST(request: NextRequest) {
 
     // Create property object without _id (MongoDB will generate it)
     const property = {
-      _id: generateId(), // Generate a new ID for the new property
       name: propertyData.name,
       property_type: propertyData.type,
       room_type: propertyData.room_type || "Entire home/apt",
