@@ -94,11 +94,6 @@ export default function App() {
   // Mock user ID for testing
   const userId = 'test-user-123';
 
-  // Fetch properties from API
-  useEffect(() => {
-    fetchProperties();
-  }, [searchQuery, fetchProperties]);
-
   const fetchProperties = useCallback(async () => {
     try {
       setLoading(true);
@@ -122,6 +117,10 @@ export default function App() {
     }
   }, [searchQuery]);
 
+  // Fetch properties from API
+  useEffect(() => {
+    fetchProperties();
+  }, [searchQuery, fetchProperties]);
 
   const handleToggleFavorite = async (propertyId: string) => {
     try {
