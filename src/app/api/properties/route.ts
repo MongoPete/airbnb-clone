@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
 import { PropertyFilters } from "@/lib/models/Property";
 import { generateId } from "@/lib/utils";
+import { ObjectId } from "mongodb";
 
 export async function GET(request: NextRequest) {
   try {
@@ -168,7 +169,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     const result = await db.collection("listingsAndReviews").deleteOne({
-      _id: propertyId,
+      _id: new ObjectId(propertyId),
     });
 
     if (result.deletedCount === 0) {
