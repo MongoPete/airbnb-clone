@@ -1,22 +1,38 @@
-# 🏠 Airbnb Clone - Next.js & MongoDB
+# 🏠 Airbnb Clone - Next.js & MongoDB Atlas
 
-A modern, full-stack Airbnb clone built with Next.js 15, TypeScript, MongoDB, and Tailwind CSS. Features a beautiful, responsive UI with complete booking functionality.
+A modern, full-stack Airbnb clone built with Next.js 15, TypeScript, MongoDB Atlas, and Tailwind CSS. Features real Airbnb data from MongoDB's sample dataset with 5,555+ authentic property listings.
 
 ![Next.js](https://img.shields.io/badge/Next.js-15.5.4-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)
-![MongoDB](https://img.shields.io/badge/MongoDB-6.20-green?logo=mongodb)
+![MongoDB Atlas](https://img.shields.io/badge/MongoDB_Atlas-Sample_Data-green?logo=mongodb)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?logo=tailwind-css)
+![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black?logo=vercel)
+
+## 🚀 Quick Start
+
+**Live Demo**: [https://airbnb-clone-mongopete.vercel.app](https://airbnb-clone-mongopete.vercel.app)
+
+```bash
+# Clone and run locally
+git clone https://github.com/MongoPete/airbnb-clone.git
+cd airbnb-clone
+npm install
+cp .env.example .env.local
+# Add your MongoDB Atlas URI to .env.local
+npm run dev
+```
 
 ## ✨ Features
 
 ### 🎯 Core Functionality
 
-- **Property Listings** - Browse and search accommodations
-- **Advanced Search** - Filter by location, price, type, and amenities
-- **Property Details** - Detailed view with image gallery and amenities
-- **Booking System** - Complete reservation flow with date selection
+- **Real Property Data** - 5,555+ authentic Airbnb listings from MongoDB sample dataset
+- **Property Listings** - Browse properties from around the world (Porto, Sydney, New York, etc.)
+- **Advanced Search** - Filter by location, price, property type, and amenities
+- **Property Details** - Detailed view with real reviews, amenities, and host information
+- **Booking System** - Complete reservation flow with price calculations
 - **Favorites** - Save and manage wishlist properties
-- **User Profiles** - User account management and booking history
+- **CRUD Operations** - Full property management capabilities
 
 ### 🎨 UI/UX
 
@@ -48,9 +64,9 @@ A modern, full-stack Airbnb clone built with Next.js 15, TypeScript, MongoDB, an
 
 ### Backend
 
-- **[MongoDB](https://www.mongodb.com/)** - NoSQL database
-- **[Mongoose](https://mongoosejs.com/)** - MongoDB object modeling
-- **Next.js API Routes** - Serverless API endpoints
+- **[MongoDB Atlas](https://www.mongodb.com/atlas)** - Cloud-hosted MongoDB with sample_airbnb dataset
+- **MongoDB Native Driver** - Direct MongoDB connection for optimal performance
+- **Next.js API Routes** - Serverless API endpoints for properties, bookings, and favorites
 
 ### Development
 
@@ -63,12 +79,12 @@ A modern, full-stack Airbnb clone built with Next.js 15, TypeScript, MongoDB, an
 
 - Node.js 18.17 or later
 - npm or yarn
-- MongoDB Atlas account (or local MongoDB)
+- MongoDB Atlas account (using sample_airbnb database)
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/airbnb-clone.git
+git clone https://github.com/MongoPete/airbnb-clone.git
 cd airbnb-clone
 ```
 
@@ -84,11 +100,11 @@ npm install
 # Copy environment template
 cp .env.example .env.local
 
-# Edit .env.local with your MongoDB credentials
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/airbnb-app
-NEXTAUTH_SECRET=your-secret-key-here
-NEXTAUTH_URL=http://localhost:3000
+# Edit .env.local with your MongoDB Atlas credentials
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/sample_airbnb
 ```
+
+**Note**: This project uses MongoDB's `sample_airbnb` database which contains 5,555+ real Airbnb listings. Make sure your Atlas cluster has the sample datasets loaded.
 
 ### 4. Start development server
 
@@ -131,8 +147,10 @@ airbnb-clone/
 
 ### Properties
 
-- `GET /api/properties` - Get all properties with filtering
+- `GET /api/properties` - Get properties with search, filtering, and pagination
+  - Query params: `search`, `location`, `priceMin`, `priceMax`, `type`, `limit`, `offset`
 - `POST /api/properties` - Create new property
+- `DELETE /api/properties?id=<propertyId>` - Delete property
 
 ### Bookings
 
@@ -141,8 +159,8 @@ airbnb-clone/
 
 ### Favorites
 
-- `GET /api/favorites` - Get user favorites
-- `POST /api/favorites` - Toggle property favorite
+- `GET /api/favorites` - Get user favorites  
+- `POST /api/favorites` - Toggle property favorite status
 
 ## 📱 Components
 
@@ -176,10 +194,10 @@ Complete set of reusable UI components built with Radix UI:
 ### Environment Variables for Production
 
 ```bash
-MONGODB_URI=your-production-mongodb-uri
-NEXTAUTH_SECRET=your-production-secret
-NEXTAUTH_URL=https://your-domain.com
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/sample_airbnb
 ```
+
+**Live Demo**: [https://airbnb-clone-mongopete.vercel.app](https://airbnb-clone-mongopete.vercel.app)
 
 For detailed deployment instructions, see [\_documents/02-vercel-deployment.md](./_documents/02-vercel-deployment.md)
 
@@ -249,10 +267,29 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [MongoDB](https://www.mongodb.com/) for the flexible database solution
 - [Vercel](https://vercel.com/) for seamless deployment platform
 
+## 📊 Data Source
+
+This project uses MongoDB Atlas's `sample_airbnb` database, which contains:
+
+- **5,555+ real Airbnb listings** from around the world
+- **Authentic property data** including prices, reviews, amenities, and host information
+- **Geographic diversity** with properties from Porto, Sydney, New York, Barcelona, and more
+- **Rich metadata** including property types, room types, and detailed descriptions
+
+## 🚀 Live Demo
+
+**Production URL**: [https://airbnb-clone-mongopete.vercel.app](https://airbnb-clone-mongopete.vercel.app)
+
+Try searching for:
+- **Porto** - Historic Portuguese properties
+- **Sydney** - Australian listings
+- **New York** - Urban accommodations
+- **Barcelona** - Mediterranean properties
+
 ## 📞 Support
 
-For support, email your-email@example.com or create an issue in this repository.
+For support, create an issue in this repository or reach out via GitHub.
 
 ---
 
-**Built with ❤️ using Next.js, TypeScript, and MongoDB**
+**Built with ❤️ using Next.js 15, TypeScript, and MongoDB Atlas**
