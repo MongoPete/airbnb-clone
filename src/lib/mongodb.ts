@@ -1,7 +1,11 @@
 import { MongoClient } from "mongodb";
 
 if (!process.env.MONGODB_URI) {
-  throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
+  if (process.env.NODE_ENV === "production") {
+    throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
+  }
+  // Use a placeholder URI for build time
+  process.env.MONGODB_URI = "mongodb://localhost:27017/airbnb-placeholder";
 }
 
 const uri = process.env.MONGODB_URI;
