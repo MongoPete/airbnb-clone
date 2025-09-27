@@ -10,7 +10,7 @@ A modern, full-stack Airbnb clone built with Next.js 15, TypeScript, MongoDB Atl
 
 ## 🚀 Quick Start
 
-**Live Demo**: [https://airbnb-clone-mongopete.vercel.app](https://airbnb-clone-mongopete.vercel.app)
+**Live Demo**: [https://airbnb-clone-mongopete.vercel.app](https://airbnb-localhost.vercel.app/)
 
 ```bash
 # Clone and run locally
