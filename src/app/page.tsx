@@ -8,6 +8,7 @@ import { FilterSheet } from '@/components/FilterSheet';
 import { BottomNavigation } from '@/components/BottomNavigation';
 import { FavoritesTab } from '@/components/FavoritesTab';
 import { ProfileTab } from '@/components/ProfileTab';
+import { ValidationDashboard } from '@/components/features/SchemaValidation/ValidationDashboard';
 import { Badge } from '@/components/ui/badge';
 import { Property } from '@/lib/models/Property';
 import { toast } from 'sonner';
@@ -294,7 +295,11 @@ export default function App() {
         </div>
       )}
 
-      {/* Admin functionality removed */}
+      {activeTab === 'admin' && (
+        <div className="p-4 pt-8">
+          <ValidationDashboard />
+        </div>
+      )}
 
       {activeTab === 'profile' && <ProfileTab />}
 

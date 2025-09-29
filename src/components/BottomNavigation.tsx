@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Heart, User, MessageCircle } from 'lucide-react';
+import { Search, Heart, User, MessageCircle, Shield } from 'lucide-react';
 import { Button } from './ui/button';
 
 interface BottomNavigationProps {
@@ -12,6 +12,7 @@ export function BottomNavigation({ activeTab, onTabChange }: BottomNavigationPro
     { id: 'search', label: 'Explore', icon: Search },
     { id: 'favorites', label: 'Wishlists', icon: Heart },
     { id: 'trips', label: 'Trips', icon: MessageCircle },
+    { id: 'admin', label: 'MongoDB', icon: Shield },
     { id: 'profile', label: 'Profile', icon: User },
   ];
 
