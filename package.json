@@ -6,7 +6,14 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "perf:install": "pip install locust pymongo",
+    "perf:baseline": "python src/performance/scripts/setup_indexes.py remove && python -m locust -f src/performance/locust/baseline_tests.py --host $MONGODB_URI --users 50 --spawn-rate 5 --run-time 60s --headless --csv src/performance/results/baseline",
+    "perf:optimized": "python src/performance/scripts/setup_indexes.py setup && python -m locust -f src/performance/locust/optimized_tests.py --host $MONGODB_URI --users 50 --spawn-rate 5 --run-time 60s --headless --csv src/performance/results/optimized",
+    "perf:full-suite": "python src/performance/scripts/run_performance_suite.py",
+    "perf:setup-indexes": "python src/performance/scripts/setup_indexes.py setup",
+    "perf:remove-indexes": "python src/performance/scripts/setup_indexes.py remove",
+    "perf:index-stats": "python src/performance/scripts/setup_indexes.py stats"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",

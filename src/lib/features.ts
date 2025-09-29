@@ -29,7 +29,7 @@ export const MONGODB_FEATURES = {
   TIME_SERIES: false, // Time Series collections for metrics
   VECTOR_SEARCH: false, // AI-powered vector search & recommendations
   SCHEMA_VALIDATION: false, // JSON Schema validation & data quality
-  ADVANCED_INDEXING: false, // Compound indexes, partial indexes, etc.
+  ADVANCED_INDEXING: true, // Compound indexes, partial indexes, etc.
   MONGODB_CHARTS: false, // MongoDB Charts integration
 } as const;
 
