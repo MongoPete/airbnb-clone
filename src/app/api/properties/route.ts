@@ -3,6 +3,7 @@ import clientPromise from "@/lib/mongodb";
 import { PropertyFilters } from "@/lib/models/Property";
 import { generateId } from "@/lib/utils";
 import { ObjectId } from "mongodb";
+import { SchemaValidationFeature } from "@/lib/mongodb-features/schema-validation";
 
 export async function GET(request: NextRequest) {
   try {
@@ -92,6 +93,20 @@ export async function POST(request: NextRequest) {
     const db = client.db("sample_airbnb");
 
     const propertyData = await request.json();
+
+    // Validate property data if schema validation is enabled
+    if (SchemaValidationFeature.isEnabled()) {
+      const validation = SchemaValidationFeature.validateProperty(propertyData);
+      if (!validation.isValid) {
+        return NextResponse.json(
+          {
+            error: "Property validation failed",
+            validationErrors: validation.errors,
+          },
+          { status: 400 }
+        );
+      }
+    }
 
     // Create property object without _id (MongoDB will generate it)
     const property = {

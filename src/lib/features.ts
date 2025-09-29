@@ -28,7 +28,7 @@ export const MONGODB_FEATURES = {
   TRANSACTIONS: false, // ACID multi-document transactions
   TIME_SERIES: false, // Time Series collections for metrics
   VECTOR_SEARCH: false, // AI-powered vector search & recommendations
-  SCHEMA_VALIDATION: false, // JSON Schema validation & data quality
+  SCHEMA_VALIDATION: true, // JSON Schema validation & data quality
   ADVANCED_INDEXING: false, // Compound indexes, partial indexes, etc.
   MONGODB_CHARTS: false, // MongoDB Charts integration
 } as const;
