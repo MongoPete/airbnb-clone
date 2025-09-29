@@ -159,7 +159,7 @@ airbnb-clone/
 
 ### Favorites
 
-- `GET /api/favorites` - Get user favorites  
+- `GET /api/favorites` - Get user favorites
 - `POST /api/favorites` - Toggle property favorite status
 
 ## 📱 Components
@@ -281,6 +281,7 @@ This project uses MongoDB Atlas's `sample_airbnb` database, which contains:
 **Production URL**: [https://airbnb-clone-mongopete.vercel.app](https://airbnb-clone-mongopete.vercel.app)
 
 Try searching for:
+
 - **Porto** - Historic Portuguese properties
 - **Sydney** - Australian listings
 - **New York** - Urban accommodations
